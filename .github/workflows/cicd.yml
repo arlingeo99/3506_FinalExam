@@ -1,1 +1,37 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker Image
+        run: docker build -t clcmexam .
+
+      - name: Push Docker Image to Registry
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin && docker push your-image-name
+
+      # Add additional steps for testing, security scanning, etc.
+      - name: Run Unit Tests
+        run: |
+          # Add commands to run unit tests for your application
+
+      - name: Run Security Scans
+        run: |
+          # Add commands to run security scans (e.g., OWASP ZAP, Snyk, etc.)
+
+      - name: Run Code Analysis
+        run: |
+          # Add commands to run code analysis tools (e.g., SonarQube, CodeClimate, etc.)
 
